@@ -20,26 +20,32 @@ const isEnvironmentValid = environments => {
 // init
 
 export const onClientEntry = (_, pluginOptions = {}) => {
-  const options = merge(defaultOptions, pluginOptions)
+  const initializeAnalytics = () => {
+    const options = merge(defaultOptions, pluginOptions)
 
-  if (isEnvironmentValid(options.environments)) {
-    // google analytics
-    if (
-      cookies.get(options.googleAnalytics.cookieName) === `true` &&
-      validGATrackingId(options)
-    ) {
-      ReactGA.initialize(options.googleAnalytics.trackingId)
-    }
+    if (isEnvironmentValid(options.environments)) {
+      // google analytics
+      if (
+        cookies.get(options.googleAnalytics.cookieName) === `true` &&
+        validGATrackingId(options)
+      ) {
+        ReactGA.initialize(options.googleAnalytics.trackingId)
+      }
 
-    // facebook pixel
-    if (
-      cookies.get(options.facebookPixel.cookieName) === `true` &&
-      validFbPixelId(options) &&
-      typeof window.fbq === `function`
-    ) {
-      window.fbq(`init`, options.facebookPixel.pixelId)
+      // facebook pixel
+      if (
+        cookies.get(options.facebookPixel.cookieName) === `true` &&
+        validFbPixelId(options) &&
+        typeof window.fbq === `function`
+      ) {
+        window.fbq(`init`, options.facebookPixel.pixelId)
+      }
     }
   }
+
+  initializeAnalytics();
+
+  window.initializeAnalytics = initializeAnalytics;
 }
 
 // track
