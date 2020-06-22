@@ -21,8 +21,6 @@ const isEnvironmentValid = environments => {
 
 export const onClientEntry = (_, pluginOptions = {}) => {
   const initializeAnalytics = () => {
-    console.log('initializeAnalytics');
-
     const options = merge(defaultOptions, pluginOptions)
 
     if (isEnvironmentValid(options.environments)) {
